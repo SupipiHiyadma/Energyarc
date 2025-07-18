@@ -402,7 +402,7 @@
   document.getElementById("total-price").textContent = formatCurrency(totalPrice);
 
   // Final value
-  const quotedValue = totalPrice - 5000;
+ const quotedValue = Math.ceil(totalPrice / 5000) * 5000;
   document.getElementById("quoted-value").textContent = formatCurrency(quotedValue);
 
   // Cost per kW
