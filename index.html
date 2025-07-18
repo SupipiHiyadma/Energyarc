@@ -327,18 +327,38 @@
   const manualMode = document.getElementById("manual-panel-checkbox").checked;
   const noPanelsInput = document.getElementById("no-panels");
 
-  // Handle manual vs auto panel count
+   // Expected panels based on requirement
+  const expectedPanels = panelCapacity > 0 ? Math.ceil((requirement * 1000) / panelCapacity) : 0;
+  
+    // Determine no. of panels
   let noPanels;
   if (manualMode) {
     noPanels = parseInt(noPanelsInput.value) || 0;
     noPanelsInput.readOnly = false;
     noPanelsInput.style.backgroundColor = "#ffffff";
   } else {
-    noPanels = panelCapacity > 0 ? Math.ceil((requirement * 1000) / panelCapacity) : 0;
+    noPanels = expectedPanels;
     noPanelsInput.value = noPanels;
     noPanelsInput.readOnly = true;
     noPanelsInput.style.backgroundColor = "#e9ecef";
   }
+
+  // Display expected panel info
+  const expectedPanelsText = manualMode
+    ? `Expected (auto): ${expectedPanels} panels (You entered: ${noPanels})`
+    : `Expected (auto): ${expectedPanels} panels`;
+
+  const expectedPanelsDiv = document.getElementById("expected-panels");
+  expectedPanelsDiv.textContent = expectedPanelsText;
+  expectedPanelsDiv.title = "Based on requirement ÷ panel capacity";
+  expectedPanelsDiv.classList.add("text-muted", "small");
+
+  if (manualMode && Math.abs(noPanels - expectedPanels) > 2) {
+    expectedPanelsDiv.style.color = "#dc3545"; // red
+  } else {
+    expectedPanelsDiv.style.color = "#6c757d"; // gray
+  }
+
 
   // System capacity and unit estimation
   const systemCapacity = (noPanels * panelCapacity / 1000);
@@ -369,7 +389,8 @@
   const profitMargin = parseFloat(document.getElementById("profit-margin").value) || 0;
   const profitValue = subtotal * profitMargin / 100;
   document.getElementById("profit-value").textContent = formatCurrency(profitValue);
-  const subtotalGross = subtotal + profitValue;
+  
+   const subtotalGross = subtotal + profitValue;
   document.getElementById("subtotal-gross").textContent = formatCurrency(subtotalGross);
 
   // Extras
