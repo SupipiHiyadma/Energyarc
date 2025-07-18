@@ -318,79 +318,81 @@
     return tr;
   }
 
-  function updateTable() {
-    // Get input values
-    const requirement = parseFloat(document.getElementById("requirement").value) || 0;
-    const panelCapacity = parseFloat(document.getElementById("panel-capacity").value) || 0;
-    const inverterType = document.getElementById("inverter-type").value;
-    const panelType = document.getElementById("panel-type").value;
+ function updateTable() {
+  // Get input values
+  const requirement = parseFloat(document.getElementById("requirement").value) || 0;
+  const panelCapacity = parseFloat(document.getElementById("panel-capacity").value) || 0;
+  const inverterType = document.getElementById("inverter-type").value;
+  const panelType = document.getElementById("panel-type").value;
+  const manualMode = document.getElementById("manual-panel-checkbox").checked;
+  const noPanelsInput = document.getElementById("no-panels");
 
-    // Calculate no of panels, system capacity, monthly units
-   const manualPanelInput = document.getElementById("manual-panel-checkbox").checked;
-let noPanels = parseInt(document.getElementById("no-panels").value) || 0;
-if (!manualPanelInput) {
-  noPanels = panelCapacity > 0 ? Math.ceil(requirement * 1000 / panelCapacity) : 0;
-  document.getElementById("no-panels").value = noPanels;
-}
-
-    const systemCapacity = (noPanels * panelCapacity / 1000).toFixed(2);
-    const monthlyUnits = (systemCapacity * 120).toFixed(2); // rough estimate
-
-    // Update UI fields
-    document.getElementById("system-capacity").textContent = systemCapacity;
-    document.getElementById("monthly-units").textContent = monthlyUnits;
-
-    // Update items quantities & names dynamically
-    items[0].qty = noPanels; // Panels
-    items[0].name = panelType + " Panel";
-
-    // Update inverter item name and qty
-    // Assuming only one inverter for now
-    items[1].name = inverterType + " Inverter";
-    items[1].qty = 1;
-
-    // Rebuild items table
-    const tbody = document.getElementById("items-body");
-    tbody.innerHTML = "";
-    items.forEach((item, idx) => {
-      tbody.appendChild(createItemRow(item, idx));
-    });
-
-    // Calculate subtotal
-    const subtotal = items.reduce((sum, i) => sum + i.qty * i.rate, 0);
-    document.getElementById("subtotal").textContent = formatCurrency(subtotal);
-
-    // Calculate profit
-    const profitMargin = parseFloat(document.getElementById("profit-margin").value) || 0;
-    const profitValue = subtotal * profitMargin / 100;
-    document.getElementById("profit-value").textContent = formatCurrency(profitValue);
-
-    // Subtotal + profit
-    const subtotalGross = subtotal + profitValue;
-    document.getElementById("subtotal-gross").textContent = formatCurrency(subtotalGross);
-
-    // Get other fees
-    const cebFee = parseFloat(document.getElementById("ceb-fee").value) || 0;
-    const transportOut = parseFloat(document.getElementById("transport-outstation").value) || 0;
-    const otherProv = parseFloat(document.getElementById("other-provisions").value) || 0;
-
-    // Calculate total price
-    const totalPrice = subtotalGross + cebFee + transportOut + otherProv;
-    document.getElementById("total-price").textContent = formatCurrency(totalPrice);
-
-    // Final quoted value (minus 5000)
-    const quotedValue = totalPrice - 5000;
-    document.getElementById("quoted-value").textContent = formatCurrency(quotedValue);
-
-    // Cost per kilowatt
-    const costPerKw = systemCapacity > 0 ? quotedValue / systemCapacity : 0;
-    document.getElementById("cost-per-watt").textContent = `Cost per Kilowatt: LKR ${costPerKw.toFixed(2)}`;
-
-    // Monthly income estimation
-    const unitRate = parseFloat(document.getElementById("unit-rate").value) || 0;
-    const monthlyIncome = monthlyUnits * unitRate;
-    document.getElementById("monthly-income").textContent = `Monthly Income Estimation: LKR ${monthlyIncome.toFixed(2)}`;
+  // Handle manual vs auto panel count
+  let noPanels;
+  if (manualMode) {
+    noPanels = parseInt(noPanelsInput.value) || 0;
+    noPanelsInput.readOnly = false;
+    noPanelsInput.style.backgroundColor = "#ffffff";
+  } else {
+    noPanels = panelCapacity > 0 ? Math.ceil((requirement * 1000) / panelCapacity) : 0;
+    noPanelsInput.value = noPanels;
+    noPanelsInput.readOnly = true;
+    noPanelsInput.style.backgroundColor = "#e9ecef";
   }
+
+  // System capacity and unit estimation
+  const systemCapacity = (noPanels * panelCapacity / 1000);
+  const monthlyUnits = systemCapacity * 120;
+
+  // Update fields
+  document.getElementById("system-capacity").textContent = systemCapacity.toFixed(2);
+  document.getElementById("monthly-units").textContent = monthlyUnits.toFixed(2);
+
+  // Update items
+  items[0].qty = noPanels;
+  items[0].name = panelType + " Panel";
+  items[1].name = inverterType + " Inverter";
+  items[1].qty = 1;
+
+  // Rebuild items table
+  const tbody = document.getElementById("items-body");
+  tbody.innerHTML = "";
+  items.forEach((item, idx) => {
+    tbody.appendChild(createItemRow(item, idx));
+  });
+
+  // Subtotal
+  const subtotal = items.reduce((sum, i) => sum + i.qty * i.rate, 0);
+  document.getElementById("subtotal").textContent = formatCurrency(subtotal);
+
+  // Profit
+  const profitMargin = parseFloat(document.getElementById("profit-margin").value) || 0;
+  const profitValue = subtotal * profitMargin / 100;
+  document.getElementById("profit-value").textContent = formatCurrency(profitValue);
+  const subtotalGross = subtotal + profitValue;
+  document.getElementById("subtotal-gross").textContent = formatCurrency(subtotalGross);
+
+  // Extras
+  const cebFee = parseFloat(document.getElementById("ceb-fee").value) || 0;
+  const transportOut = parseFloat(document.getElementById("transport-outstation").value) || 0;
+  const otherProv = parseFloat(document.getElementById("other-provisions").value) || 0;
+
+  const totalPrice = subtotalGross + cebFee + transportOut + otherProv;
+  document.getElementById("total-price").textContent = formatCurrency(totalPrice);
+
+  // Final value
+  const quotedValue = totalPrice - 5000;
+  document.getElementById("quoted-value").textContent = formatCurrency(quotedValue);
+
+  // Cost per kW
+  const costPerKw = systemCapacity > 0 ? quotedValue / systemCapacity : 0;
+  document.getElementById("cost-per-watt").textContent = `Cost per Kilowatt: LKR ${costPerKw.toFixed(2)}`;
+
+  // Monthly income
+  const unitRate = parseFloat(document.getElementById("unit-rate").value) || 0;
+  const monthlyIncome = monthlyUnits * unitRate;
+  document.getElementById("monthly-income").textContent = `Monthly Income Estimation: LKR ${monthlyIncome.toFixed(2)}`;
+}
 
   // Event listeners
   document.getElementById("requirement").addEventListener("input", updateTable);
