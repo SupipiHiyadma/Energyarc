@@ -84,6 +84,13 @@
     }
   </style>
 </head>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service worker registered.'))
+      .catch(err => console.error('Service worker failed:', err));
+  }
+</script>
 <body>
 <div class="container">
 
