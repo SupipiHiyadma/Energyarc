@@ -297,34 +297,13 @@
 
 
   
- let updateTimeout; // global debounce timer, outside the function 
 
   function createItemRow(item, index) {
     const tr = document.createElement("tr");
 
- const qtyInput = document.createElement('input');
-  qtyInput.type = 'number';
-  qtyInput.value = item.qty;
-
-  qtyInput.oninput = () => {
-    item.qty = parseFloat(qtyInput.value) || 0;
-    clearTimeout(updateTimeout);
-    updateTimeout = setTimeout(() => {
-      updateTable();
-    }, 300); // wait 300ms after last input before updating table
-  };
-
-  // Add qtyInput to the row
-  const tdQty = document.createElement('td');
-  tdQty.appendChild(qtyInput);
-  tr.appendChild(tdQty);
 
 
 
-
-
-
-    
 
     // Item Name cell (left aligned)
     const tdName = document.createElement("td");
