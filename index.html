@@ -111,12 +111,20 @@
             <input type="number" id="panel-capacity" class="form-control" value="500" min="0" step="10" />
           </td>
         </tr>
-        <tr>
-          <td class="item">No of Panels</td>
-          <td colspan="3">
-            <input type="number" id="no-panels" class="form-control" readonly value="0" />
-          </td>
-        </tr>
+       <tr>
+  <td class="item">
+    No of Panels<br>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="manual-panel-checkbox" />
+      <label class="form-check-label" for="manual-panel-checkbox">
+        Enter manually
+      </label>
+    </div>
+  </td>
+  <td colspan="3">
+    <input type="number" id="no-panels" class="form-control" value="0" min="0" step="1" />
+  </td>
+</tr>
         <tr>
           <td class="item">System Capacity (kW)</td>
           <td colspan="3" id="system-capacity">0</td>
@@ -318,7 +326,13 @@
     const panelType = document.getElementById("panel-type").value;
 
     // Calculate no of panels, system capacity, monthly units
-    const noPanels = panelCapacity > 0 ? Math.ceil(requirement * 1000 / panelCapacity) : 0;
+   const manualPanelInput = document.getElementById("manual-panel-checkbox").checked;
+let noPanels = parseInt(document.getElementById("no-panels").value) || 0;
+if (!manualPanelInput) {
+  noPanels = panelCapacity > 0 ? Math.ceil(requirement * 1000 / panelCapacity) : 0;
+  document.getElementById("no-panels").value = noPanels;
+}
+
     const systemCapacity = (noPanels * panelCapacity / 1000).toFixed(2);
     const monthlyUnits = (systemCapacity * 120).toFixed(2); // rough estimate
 
@@ -389,6 +403,9 @@
   document.getElementById("transport-outstation").addEventListener("input", updateTable);
   document.getElementById("other-provisions").addEventListener("input", updateTable);
   document.getElementById("unit-rate").addEventListener("input", updateTable);
+  document.getElementById("manual-panel-checkbox").addEventListener("change", updateTable);
+  document.getElementById("no-panels").addEventListener("input", updateTable);
+
 
   // Initialize on load
   window.onload = updateTable;
