@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <!-- PWA: Manifest and Icon -->
-<link rel="manifest" href="manifest.json" />
-<link rel="apple-touch-icon" href="icon.png" />
-<meta name="theme-color" content="#1e90ff" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <meta name="theme-color" content="#1e90ff" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Solar Project Quotation Tool</title>
@@ -23,14 +23,14 @@
       margin-bottom: 1em;
     }
     .form-check-input {
-  width: 1.25em;
-  height: 1.25em;
-  margin-top: 0.15em;
-  cursor: pointer;
-  vertical-align: middle;
-  appearance: auto;
-  -webkit-appearance: checkbox;
-}
+      width: 1.25em;
+      height: 1.25em;
+      margin-top: 0.15em;
+      cursor: pointer;
+      vertical-align: middle;
+      appearance: auto;
+      -webkit-appearance: checkbox;
+    }
     th, td {
       border: 1px solid #ccc;
       padding: 8px;
@@ -90,355 +90,328 @@
     }
   </style>
 </head>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <body>
-<div class="container">
-
-  <h1>Solar Project Quotation Tool</h1>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <tbody>
-        <tr>
-          <td class="item">Requirement (kW)</td>
-          <td colspan="3">
-            <input type="number" id="requirement" class="form-control" value="6" min="0" step="0.1" />
-          </td>
-        </tr>
-        <tr>
-          <td class="item">Panel Capacity (W)</td>
-          <td colspan="3">
-            <input type="number" id="panel-capacity" class="form-control" value="500" min="0" step="10" />
-          </td>
-        </tr>
-       <tr>
-  <td class="item">
-    No of Panels<br>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="manual-panel-checkbox" />
-      <label class="form-check-label" for="manual-panel-checkbox">
-        Enter manually
-      </label>
+  <div class="container">
+    <h1>Solar Project Quotation Tool</h1>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td class="item">Requirement (kW)</td>
+            <td colspan="3">
+              <input type="number" id="requirement" class="form-control" value="6" min="0" step="0.1" />
+            </td>
+          </tr>
+          <tr>
+            <td class="item">Panel Capacity (W)</td>
+            <td colspan="3">
+              <input type="number" id="panel-capacity" class="form-control" value="500" min="0" step="10" />
+            </td>
+          </tr>
+          <tr>
+            <td class="item">
+              No of Panels<br />
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="manual-panel-checkbox" />
+                <label class="form-check-label" for="manual-panel-checkbox">Enter manually</label>
+              </div>
+            </td>
+            <td colspan="3">
+              <input type="number" id="no-panels" class="form-control" value="0" min="0" step="1" />
+              <div id="expected-panels" class="text-muted small mt-1"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="item">System Capacity (kW)</td>
+            <td colspan="3" id="system-capacity">0</td>
+          </tr>
+          <tr>
+            <td class="item">~ Units/Month</td>
+            <td colspan="3" id="monthly-units">0</td>
+          </tr>
+          <tr>
+            <td class="item">Inverter</td>
+            <td colspan="3">
+              <select id="inverter-type" class="form-select">
+                <option value="Goodwe">Goodwe</option>
+                <option value="Growatt">Growatt</option>
+                <option value="Deye">Deye</option>
+                <option value="Huawei">Huawei</option>
+                <option value="Solis">Solis</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="item">Panel</td>
+            <td colspan="3">
+              <select id="panel-type" class="form-select">
+                <option value="Trina">Trina</option>
+                <option value="JA Solar">JA Solar</option>
+                <option value="Canadian Solar">Canadian Solar</option>
+                <option value="Longi">Longi</option>
+                <option value="AE Solar">AE Solar</option>
+                <option value="Jinko">Jinko</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </td>
-  <td colspan="3">
-    <input type="number" id="no-panels" class="form-control" value="0" min="0" step="1" />
-      <div id="expected-panels" class="text-muted small mt-1"></div>
-  </td>
-</tr>
-        <tr>
-          <td class="item">System Capacity (kW)</td>
-          <td colspan="3" id="system-capacity">0</td>
-        </tr>
-        <tr>
-          <td class="item">~ Units/Month</td>
-          <td colspan="3" id="monthly-units">0</td>
-        </tr>
-        <tr>
-          <td class="item">Inverter</td>
-          <td colspan="3">
-            <select id="inverter-type" class="form-select">
-              <option value="Goodwe">Goodwe</option>
-              <option value="Growatt">Growatt</option>
-              <option value="Deye">Deye</option>
-              <option value="Huawei">Huawei</option>
-              <option value="Solis">Solis</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="item">Panel</td>
-          <td colspan="3">
-            <select id="panel-type" class="form-select">
-              <option value="Trina">Trina</option>
-              <option value="JA Solar">JA Solar</option>
-              <option value="Canadian Solar">Canadian Solar</option>
-              <option value="Longi">Longi</option>
-              <option value="AE Solar">AE Solar</option>
-              <option value="Jinko">Jinko</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="item">ITEM</th>
+            <th>QTY</th>
+            <th>RATE (LKR)</th>
+            <th>TOTAL (LKR)</th>
+          </tr>
+        </thead>
+        <tbody id="items-body"></tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr class="summary">
+            <td class="item">Sub Total Cost</td>
+            <td colspan="2"></td>
+            <td id="subtotal">0</td>
+          </tr>
+          <tr>
+            <td class="item">Profit Margin (%)</td>
+            <td colspan="2">
+              <input type="number" id="profit-margin" class="form-control" value="13" min="0" max="100" />
+            </td>
+            <td></td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Profit Value</td>
+            <td colspan="2"></td>
+            <td id="profit-value">0</td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Sub Total + Gross Profit</td>
+            <td colspan="2"></td>
+            <td id="subtotal-gross">0</td>
+          </tr>
+          <tr class="summary">
+            <td class="item">CEB Approval Fee</td>
+            <td colspan="2"></td>
+            <td><input type="number" id="ceb-fee" class="form-control" value="30000" min="0" /></td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Transport Outstation</td>
+            <td colspan="2"></td>
+            <td><input type="number" id="transport-outstation" class="form-control" value="0" min="0" /></td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Other Provisions</td>
+            <td colspan="2"></td>
+            <td><input type="number" id="other-provisions" class="form-control" value="60000" min="0" /></td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Project Price </td>
+            <td colspan="2"></td>
+            <td id="total-price">0</td>
+          </tr>
+          <tr class="summary">
+            <td class="item">Final Value (~5000)</td>
+            <td colspan="2"></td>
+            <td id="quoted-value">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cost-per-watt">Cost per Kilowatt: LKR 0</div>
+
+    <div class="mb-3">
+      <label for="unit-rate" class="form-label">Unit Rate (LKR per unit):</label>
+      <input type="number" id="unit-rate" class="form-control" value="56" min="0" step="0.01" />
+    </div>
+
+    <div id="monthly-income">Estimated Monthly Income: LKR 0</div>
+
+    <div class="button-group">
+      <button id="calculate-btn" type="button" class="btn btn-primary">Calculate</button>
+      <button id="print-btn" type="button" class="btn btn-secondary">Print Quotation</button>
+    </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th class="item">ITEM</th>
-          <th>QTY</th>
-          <th>RATE (LKR)</th>
-          <th>TOTAL (LKR)</th>
-        </tr>
-      </thead>
-      <tbody id="items-body"></tbody>
-    </table>
-  </div>
-
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <tbody>
-        <tr class="summary">
-          <td class="item">Sub Total Cost</td>
-          <td colspan="2"></td>
-          <td id="subtotal">0</td>
-        </tr>
-        <tr>
-          <td class="item">Profit Margin (%)</td>
-          <td colspan="2">
-            <input type="number" id="profit-margin" class="form-control" value="13" min="0" max="100" />
-          </td>
-          <td></td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Profit Value</td>
-          <td colspan="2"></td>
-          <td id="profit-value">0</td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Sub Total + Gross Profit</td>
-          <td colspan="2"></td>
-          <td id="subtotal-gross">0</td>
-        </tr>
-        <tr class="summary">
-          <td class="item">CEB Approval Fee</td>
-          <td colspan="2"></td>
-          <td><input type="number" id="ceb-fee" class="form-control" value="30000" min="0" /></td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Transport Outstation</td>
-          <td colspan="2"></td>
-          <td><input type="number" id="transport-outstation" class="form-control" value="0" min="0" /></td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Other Provisions</td>
-          <td colspan="2"></td>
-          <td><input type="number" id="other-provisions" class="form-control" value="60000" min="0" /></td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Project Price </td>
-          <td colspan="2"></td>
-          <td id="total-price">0</td>
-        </tr>
-        <tr class="summary">
-          <td class="item">Final Value (~5000)</td>
-          <td colspan="2"></td>
-          <td id="quoted-value">0</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div id="cost-per-watt">Cost per Kilowatt: LKR 0</div>
-
-  <div class="mb-3">
-    <label for="unit-rate" class="form-label">Unit Rate (LKR per unit):</label>
-    <input type="number" id="unit-rate" class="form-control" value="20" min="0" step="0.1" />
-  </div>
-  <div id="monthly-income">Monthly Income Estimation: LKR 0</div>
-
-  <div class="button-group">
-    <button onclick="window.print()" class="btn btn-primary">Print Quotation</button>
-  </div>
-
-</div>
-
-<script>
-  // Initial items array with placeholders for dynamic names
-  const items = [
-    { name: "Panel", qty: 6, rate: 21500 },
-    { name: "Inverter Growatt", qty: 1, rate: 160000 },
-    { name: "Approval Service Fee", qty: 1, rate: 6000 },
-    { name: "Railing + Accessories", qty: 1, rate: 28800 },
-    { name: "PV Cable 4mm 2C", qty: 75, rate: 500 },
-    { name: "AC Cable 1C 6mm", qty: 10, rate: 450 },
-    { name: "AC Cable 2C 6mm", qty: 26, rate: 1200 },
-    { name: "Earthing 6mm Cable", qty: 1, rate: 31128 },
-    { name: "Installation", qty: 1, rate: 35000 },
-    { name: "DB", qty: 1, rate: 45000 },
-    { name: "Additional roof", qty: 0, rate: 12500 },
-    { name: "Underground wiring", qty: 5, rate: 2500 },
-    { name: "Meter Box Additional", qty: 0, rate: 12500 },
-    { name: "Civil work", qty: 1, rate: 5000 },
-    { name: "Site Vist & commissioning", qty: 1, rate: 20000 }
-  ];
-
-  function formatCurrency(num) {
-    return num.toLocaleString("en-LK", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  function createItemRow(item, index) {
-    const tr = document.createElement("tr");
-
-    // Item Name cell (left aligned)
-    const tdName = document.createElement("td");
-    tdName.textContent = item.name;
-    tdName.classList.add("item");
-    tr.appendChild(tdName);
-
-    // Qty cell with input
-    const tdQty = document.createElement("td");
-    const qtyInput = document.createElement("input");
-    qtyInput.type = "number";
-    qtyInput.min = 0;
-    qtyInput.step = "any";
-    qtyInput.value = item.qty;
-    qtyInput.className = "form-control";
-    qtyInput.style.textAlign = "right";
-    qtyInput.oninput = () => {
-      item.qty = parseFloat(qtyInput.value) || 0;
-      updateTable();
-    };
-    tdQty.appendChild(qtyInput);
-    tr.appendChild(tdQty);
-
-    // Rate cell with input
-    const tdRate = document.createElement("td");
-    const rateInput = document.createElement("input");
-    rateInput.type = "number";
-    rateInput.min = 0;
-    rateInput.step = "any";
-    rateInput.value = item.rate;
-    rateInput.className = "form-control";
-    rateInput.style.textAlign = "right";
-    rateInput.oninput = () => {
-      item.rate = parseFloat(rateInput.value) || 0;
-      updateTable();
-    };
-    tdRate.appendChild(rateInput);
-    tr.appendChild(tdRate);
-
-    // Total cell (calculated)
-    const tdTotal = document.createElement("td");
-    tdTotal.style.textAlign = "right";
-    tdTotal.textContent = formatCurrency(item.qty * item.rate);
-    tr.appendChild(tdTotal);
-
-    return tr;
-  }
-
- function updateTable() {
-  // Get input values
-  const requirement = parseFloat(document.getElementById("requirement").value) || 0;
-  const panelCapacity = parseFloat(document.getElementById("panel-capacity").value) || 0;
-  const inverterType = document.getElementById("inverter-type").value;
-  const panelType = document.getElementById("panel-type").value;
-  const manualMode = document.getElementById("manual-panel-checkbox").checked;
-  const noPanelsInput = document.getElementById("no-panels");
-
-   // Expected panels based on requirement
-  const expectedPanels = panelCapacity > 0 ? Math.ceil((requirement * 1000) / panelCapacity) : 0;
-  
-    // Determine no. of panels
-  let noPanels;
-  if (manualMode) {
-    noPanels = parseInt(noPanelsInput.value) || 0;
-    noPanelsInput.readOnly = false;
-    noPanelsInput.style.backgroundColor = "#ffffff";
-  } else {
-    noPanels = expectedPanels;
-    noPanelsInput.value = noPanels;
-    noPanelsInput.readOnly = true;
-    noPanelsInput.style.backgroundColor = "#e9ecef";
-  }
-
-  // Display expected panel info
-  const expectedPanelsText = manualMode
-    ? `Expected (auto): ${expectedPanels} panels (You entered: ${noPanels})`
-    : `Expected (auto): ${expectedPanels} panels`;
-
-  const expectedPanelsDiv = document.getElementById("expected-panels");
-  expectedPanelsDiv.textContent = expectedPanelsText;
-  expectedPanelsDiv.title = "Based on requirement ÷ panel capacity";
-  expectedPanelsDiv.classList.add("text-muted", "small");
-
-  if (manualMode && Math.abs(noPanels - expectedPanels) > 2) {
-    expectedPanelsDiv.style.color = "#dc3545"; // red
-  } else {
-    expectedPanelsDiv.style.color = "#6c757d"; // gray
-  }
-
-
-  // System capacity and unit estimation
-  const systemCapacity = (noPanels * panelCapacity / 1000);
-  const monthlyUnits = systemCapacity * 120;
-
-  // Update fields
-  document.getElementById("system-capacity").textContent = systemCapacity.toFixed(2);
-  document.getElementById("monthly-units").textContent = monthlyUnits.toFixed(2);
-
-  // Update items
-  items[0].qty = noPanels;
-  items[0].name = panelType + " Panel";
-  items[1].name = inverterType + " Inverter";
-  items[1].qty = 1;
-
-  // Rebuild items table
-  const tbody = document.getElementById("items-body");
-  tbody.innerHTML = "";
-  items.forEach((item, idx) => {
-    tbody.appendChild(createItemRow(item, idx));
-  });
-
-  // Subtotal
-  const subtotal = items.reduce((sum, i) => sum + i.qty * i.rate, 0);
-  document.getElementById("subtotal").textContent = formatCurrency(subtotal);
-
-  // Profit
-  const profitMargin = parseFloat(document.getElementById("profit-margin").value) || 0;
-  const profitValue = subtotal * profitMargin / 100;
-  document.getElementById("profit-value").textContent = formatCurrency(profitValue);
-  
-   const subtotalGross = subtotal + profitValue;
-  document.getElementById("subtotal-gross").textContent = formatCurrency(subtotalGross);
-
-  // Extras
-  const cebFee = parseFloat(document.getElementById("ceb-fee").value) || 0;
-  const transportOut = parseFloat(document.getElementById("transport-outstation").value) || 0;
-  const otherProv = parseFloat(document.getElementById("other-provisions").value) || 0;
-
-  const totalPrice = subtotalGross + cebFee + transportOut + otherProv;
-  document.getElementById("total-price").textContent = formatCurrency(totalPrice);
-
-  // Final value
-  const quotedValue = Math.ceil(totalPrice / 5000) * 5000;
-  document.getElementById("quoted-value").textContent = formatCurrency(quotedValue);
-
-  // Cost per kW
-  const costPerKw = systemCapacity > 0 ? quotedValue / systemCapacity : 0;
-  document.getElementById("cost-per-watt").textContent = `Cost per Kilowatt: LKR ${costPerKw.toFixed(2)}`;
-
-  // Monthly income
-  const unitRate = parseFloat(document.getElementById("unit-rate").value) || 0;
-  const monthlyIncome = monthlyUnits * unitRate;
-  document.getElementById("monthly-income").textContent = `Monthly Income Estimation: LKR ${monthlyIncome.toFixed(2)}`;
-}
-
-  // Event listeners
-  document.getElementById("requirement").addEventListener("input", updateTable);
-  document.getElementById("panel-capacity").addEventListener("input", updateTable);
-  document.getElementById("inverter-type").addEventListener("change", updateTable);
-  document.getElementById("panel-type").addEventListener("change", updateTable);
-  document.getElementById("profit-margin").addEventListener("input", updateTable);
-  document.getElementById("ceb-fee").addEventListener("input", updateTable);
-  document.getElementById("transport-outstation").addEventListener("input", updateTable);
-  document.getElementById("other-provisions").addEventListener("input", updateTable);
-  document.getElementById("unit-rate").addEventListener("input", updateTable);
-  document.getElementById("manual-panel-checkbox").addEventListener("change", updateTable);
-  document.getElementById("no-panels").addEventListener("input", updateTable);
-
-
-  // Initialize on load
-  window.onload = updateTable;
-</script>
   <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('Service worker registered.'))
-      .catch(err => console.error('Service worker failed:', err));
-  }
-</script>
+    // Prices for items by inverter type and panel type
+    const inverterPrices = {
+      "Goodwe": 25000,
+      "Growatt": 23000,
+      "Deye": 22000,
+      "Huawei": 30000,
+      "Solis": 28000
+    };
+
+    const panelPrices = {
+      "Trina": 35000,
+      "JA Solar": 37000,
+      "Canadian Solar": 36000,
+      "Longi": 35500,
+      "AE Solar": 34500,
+      "Jinko": 34000
+    };
+
+    // Other fixed item rates
+    const otherItems = {
+      'String Box': 6500,
+      'Wiring (LKR/m)': 65,
+      'Mounting (LKR/panel)': 4000,
+      'MC4 Connector (LKR/panel)': 1200,
+      'Cable Tagging (LKR/panel)': 800,
+      'Installation & Commissioning (LKR/kW)': 3000,
+      'Other Provisions': 60000,
+      'CEB Approval Fee': 30000,
+      'Transport Outstation': 0
+    };
+
+    // Calculate expected number of panels
+    function calculateExpectedPanels(requirementKw, panelW) {
+      return Math.ceil((requirementKw * 1000) / panelW);
+    }
+
+    // Format numbers as currency
+    function formatCurrency(num) {
+      return num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function updateTable() {
+      // Read inputs
+      const requirement = parseFloat(document.getElementById('requirement').value) || 0;
+      const panelCapacity = parseInt(document.getElementById('panel-capacity').value) || 0;
+      const manualPanelsChecked = document.getElementById('manual-panel-checkbox').checked;
+      const noPanelsInput = parseInt(document.getElementById('no-panels').value) || 0;
+      const inverterType = document.getElementById('inverter-type').value;
+      const panelType = document.getElementById('panel-type').value;
+      const profitMargin = parseFloat(document.getElementById('profit-margin').value) || 0;
+      const cebFee = parseFloat(document.getElementById('ceb-fee').value) || 0;
+      const transportOutstation = parseFloat(document.getElementById('transport-outstation').value) || 0;
+      const otherProvisions = parseFloat(document.getElementById('other-provisions').value) || 0;
+      const unitRate = parseFloat(document.getElementById('unit-rate').value) || 0;
+
+      // Calculate expected panels if not manual
+      let noPanels = noPanelsInput;
+      const expectedPanels = calculateExpectedPanels(requirement, panelCapacity);
+      if (!manualPanelsChecked) {
+        noPanels = expectedPanels;
+        document.getElementById('no-panels').value = noPanels;
+        document.getElementById('expected-panels').textContent = `Expected panels (auto): ${expectedPanels}`;
+      } else {
+        document.getElementById('expected-panels').textContent = `Expected panels (auto): ${expectedPanels}`;
+      }
+
+      // Calculate system capacity (kW)
+      const systemCapacityKw = (noPanels * panelCapacity) / 1000;
+      document.getElementById('system-capacity').textContent = systemCapacityKw.toFixed(2);
+
+      // Units per month ~ systemCapacity * 130
+      const monthlyUnits = Math.round(systemCapacityKw * 130);
+      document.getElementById('monthly-units').textContent = monthlyUnits;
+
+      // Build items list for pricing
+      const items = [];
+
+      // Panel
+      const panelRate = panelPrices[panelType];
+      items.push({ name: `Panel (${panelType})`, qty: noPanels, rate: panelRate, total: noPanels * panelRate });
+
+      // Inverter
+      const inverterRate = inverterPrices[inverterType];
+      items.push({ name: `Inverter (${inverterType})`, qty: 1, rate: inverterRate, total: inverterRate });
+
+      // String Box
+      items.push({ name: "String Box", qty: 1, rate: otherItems['String Box'], total: otherItems['String Box'] });
+
+      // Wiring - 30 m per kW approx
+      const wiringQty = Math.round(systemCapacityKw * 30);
+      items.push({ name: "Wiring (m)", qty: wiringQty, rate: otherItems['Wiring (LKR/m)'], total: wiringQty * otherItems['Wiring (LKR/m)'] });
+
+      // Mounting - per panel
+      items.push({ name: "Mounting (per panel)", qty: noPanels, rate: otherItems['Mounting (LKR/panel)'], total: noPanels * otherItems['Mounting (LKR/panel)'] });
+
+      // MC4 Connector - per panel
+      items.push({ name: "MC4 Connector (per panel)", qty: noPanels, rate: otherItems['MC4 Connector (LKR/panel)'], total: noPanels * otherItems['MC4 Connector (LKR/panel)'] });
+
+      // Cable Tagging - per panel
+      items.push({ name: "Cable Tagging (per panel)", qty: noPanels, rate: otherItems['Cable Tagging (LKR/panel)'], total: noPanels * otherItems['Cable Tagging (LKR/panel)'] });
+
+      // Installation & Commissioning - per kW
+      items.push({ name: "Installation & Commissioning (per kW)", qty: systemCapacityKw, rate: otherItems['Installation & Commissioning (LKR/kW)'], total: systemCapacityKw * otherItems['Installation & Commissioning (LKR/kW)'] });
+
+      // Fill the items table
+      const tbody = document.getElementById('items-body');
+      tbody.innerHTML = '';
+      items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="item">${item.name}</td>
+          <td>${item.qty.toFixed(0)}</td>
+          <td>${formatCurrency(item.rate)}</td>
+          <td>${formatCurrency(item.total)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Calculate subtotal
+      const subtotal = items.reduce((acc, item) => acc + item.total, 0);
+      document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+
+      // Calculate profit
+      const profitValue = subtotal * (profitMargin / 100);
+      document.getElementById('profit-value').textContent = formatCurrency(profitValue);
+
+      // Subtotal + profit
+      const subtotalGross = subtotal + profitValue;
+      document.getElementById('subtotal-gross').textContent = formatCurrency(subtotalGross);
+
+      // Set fees from input
+      document.getElementById('ceb-fee').value = cebFee;
+      document.getElementById('transport-outstation').value = transportOutstation;
+      document.getElementById('other-provisions').value = otherProvisions;
+
+      // Total project price
+      const totalPrice = subtotalGross + cebFee + transportOutstation + otherProvisions;
+      document.getElementById('total-price').textContent = formatCurrency(totalPrice);
+
+      // Final value approx dividing by 5,000
+      const finalValue = Math.round(totalPrice / 5000);
+      document.getElementById('quoted-value').textContent = formatCurrency(finalValue);
+
+      // Cost per kilowatt
+      const costPerKw = systemCapacityKw ? totalPrice / systemCapacityKw : 0;
+      document.getElementById('cost-per-watt').textContent = `Cost per Kilowatt: LKR ${costPerKw.toFixed(2)}`;
+
+      // Monthly income approx: monthlyUnits * unitRate
+      const monthlyIncome = monthlyUnits * unitRate;
+      document.getElementById('monthly-income').textContent = `Estimated Monthly Income: LKR ${monthlyIncome.toFixed(0)}`;
+    }
+
+    // Event listeners
+    document.getElementById('calculate-btn').addEventListener('click', updateTable);
+
+    // Automatically update when key inputs change
+    ['requirement', 'panel-capacity', 'manual-panel-checkbox', 'no-panels', 'inverter-type', 'panel-type', 'profit-margin', 'ceb-fee', 'transport-outstation', 'other-provisions', 'unit-rate'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        // Delay small to prevent excessive updates if needed (not implemented here)
+        updateTable();
+      });
+    });
+
+    // Print functionality
+    document.getElementById('print-btn').addEventListener('click', () => {
+      window.print();
+    });
+
+    // Initialize table on page load
+    window.onload = updateTable;
+  </script>
 </body>
 </html>
