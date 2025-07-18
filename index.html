@@ -21,10 +21,16 @@
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 1em;
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
     }
+    .form-check-input {
+  width: 1.25em;
+  height: 1.25em;
+  margin-top: 0.15em;
+  cursor: pointer;
+  vertical-align: middle;
+  appearance: auto;
+  -webkit-appearance: checkbox;
+}
     th, td {
       border: 1px solid #ccc;
       padding: 8px;
@@ -397,8 +403,6 @@
   document.getElementById("total-price").textContent = formatCurrency(totalPrice);
 
   // Final value
- const totalPriceText = document.getElementById("total-price").textContent;
- const totalPrice = parseFloat(totalPriceText.replace(/,/g, '')) |
   const quotedValue = Math.ceil(totalPrice / 5000) * 5000;
   document.getElementById("quoted-value").textContent = formatCurrency(quotedValue);
 
